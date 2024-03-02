@@ -10,28 +10,29 @@ int max(int a, int b) { if(a>b) return a; return b; }
 #endif
 
 typedef struct {
-    int pieces[16];
+    int tiles[16];
 } board;
 
 board createBoard() {
     board ret;
     int i;
-    for(i=0;i<16;i++) ret.pieces[i] = 0;
+    for(i=0;i<16;i++) ret.tiles[i] = 0;
     return ret;
 }
 
 void addRandomPiece(board* boardIn) {
     int i, addition;
-    char emptyPieces[16] = {0}, index = 0;
-    for(i=0;i<16;i++) if(boardIn->pieces[i] == 0) emptyPieces[index++] = i;
+    char emptyTiles[16] = {0}, index = 0;
+    // Fill emptyTiles with the indices of all empty tiles
+    for(i=0;i<16;i++) if(boardIn->tiles[i] == 0) emptyTiles[index++] = i;
     if(rand() % 4 == 0) addition = 4;
     else addition = 2;
-    boardIn->pieces[emptyPieces[rand() % index]] = addition;
+    boardIn->tiles[emptyTiles[rand() % index]] = addition;
 }
 
 int boardsAreEqual(board boardOne, board boardTwo) {
     int i;
-    for(i=0;i<16;i++) if(boardOne.pieces[i] != boardTwo.pieces[i]) return 0;
+    for(i=0;i<16;i++) if(boardOne.tiles[i] != boardTwo.tiles[i]) return 0;
     return 1;
 }
 
@@ -44,6 +45,7 @@ int sizeOfNum(int num) {
     return count;
 }
 
+// Prints a rainbow effect for tiles worth 2048+
 void print2048OrMore(int num, int maxSize) {
     int i;
     char toPrint[32];
@@ -61,27 +63,32 @@ void print2048OrMore(int num, int maxSize) {
 
 void printBoard(board in) {
     int i, j, k, maxSize = 0;
-    for(i=0;i<16;i++) maxSize = max(maxSize, sizeOfNum(in.pieces[i]));
+    for(i=0;i<16;i++) maxSize = max(maxSize, sizeOfNum(in.tiles[i]));
     for(i=0;i<4;i++) {
         for(j=0;j<4;j++) {
-            switch(in.pieces[i*4+j]) {
-                case 0:    setColour((const char*)GREY);   break;
-                case 2:    setColour((const char*)WHITE);  break;
-                case 4:    setColour((const char*)WHITE);  break;
-                case 8:    setColour((const char*)WHITE);  break;
-                case 16:   setColour((const char*)YELLOW); break;
-                case 32:   setColour((const char*)ORANGE); break;
-                case 64:   setColour((const char*)RED);    break;
-                case 128:  setColour((const char*)GREEN);  break;
-                case 256:  setColour((const char*)BLUE);   break;
-                case 512:  setColour((const char*)PINK);   break;
-                case 1024: setColour((const char*)PURPLE); break;
-                case 2048: print2048OrMore(2048, maxSize);      continue;
+            // Colour code the tiles
+            switch(in.tiles[i * 4 + j]) {
+                case 0:    setColour((const char*)GREY);       break;
+                case 2:    setColour((const char*)WHITE);      break;
+                case 4:    setColour((const char*)WHITE);      break;
+                case 8:    setColour((const char*)WHITE);      break;
+                case 16:   setColour((const char*)YELLOW);     break;
+                case 32:   setColour((const char*)ORANGE);     break;
+                case 64:   setColour((const char*)RED);        break;
+                case 128:  setColour((const char*)GREEN);      break;
+                case 256:  setColour((const char*)BLUE);       break;
+                case 512:  setColour((const char*)PINK);       break;
+                case 1024: setColour((const char*)PURPLE);     break;
+                // If the tile >= 2048, this will run (assuming no error happened)
+                default: print2048OrMore(in.tiles[i * 4 + j], maxSize); continue;
             }
+            // Prints [(num)] but adds spaces to smaller numbers to make all tiles even
+            // This works like this: [2  ] [16 ] [4  ] [128]
+            // Because there needs to be 3 spaces for numbers extra spaces are appended to numbers that don't fully fill the space
             printf("[");
-            if(in.pieces[i*4+j] != 0) printf("%d", in.pieces[i*4+j]);
+            if(in.tiles[i * 4 + j] != 0) printf("%d", in.tiles[i * 4 + j]);
             else printf(" ");
-            for(k=0;k<maxSize-sizeOfNum(in.pieces[i*4+j]);k++) printf(" ");
+            for(k=0;k<maxSize-sizeOfNum(in.tiles[i * 4 + j]);k++) printf(" ");
             printf("] ");
             setColour((const char*)WHITE);
         }

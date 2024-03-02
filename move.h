@@ -16,12 +16,12 @@ void combinePieces(board* boardIn, direction directionIn) {
         case UP:
             for(i=0;i<3;i++) {
                 for(j=0;j<4;j++) {
-                    if(boardIn->pieces[i*4+j] != 0) {
+                    if(boardIn->tiles[i * 4 + j] != 0) {
                         for(k=i+1;k<4;k++) {
-                            if(boardIn->pieces[k*4+j] != 0) {
-                                if(boardIn->pieces[i*4+j] == boardIn->pieces[k*4+j]) {
-                                    boardIn->pieces[i*4+j] *= 2;
-                                    boardIn->pieces[k*4+j] = 0;
+                            if(boardIn->tiles[k * 4 + j] != 0) {
+                                if(boardIn->tiles[i * 4 + j] == boardIn->tiles[k * 4 + j]) {
+                                    boardIn->tiles[i * 4 + j] *= 2;
+                                    boardIn->tiles[k * 4 + j] = 0;
                                 }
                                 break;
                             }
@@ -33,12 +33,12 @@ void combinePieces(board* boardIn, direction directionIn) {
         case DOWN:
             for(i=3;i>0;i--) {
                 for(j=0;j<4;j++) {
-                    if(boardIn->pieces[i*4+j] != 0) {
+                    if(boardIn->tiles[i * 4 + j] != 0) {
                         for(k=i-1;k>=0;k--) {
-                            if(boardIn->pieces[k*4+j] != 0) {
-                                if(boardIn->pieces[i*4+j] == boardIn->pieces[k*4+j]) {
-                                    boardIn->pieces[i*4+j] *= 2;
-                                    boardIn->pieces[k*4+j] = 0;
+                            if(boardIn->tiles[k * 4 + j] != 0) {
+                                if(boardIn->tiles[i * 4 + j] == boardIn->tiles[k * 4 + j]) {
+                                    boardIn->tiles[i * 4 + j] *= 2;
+                                    boardIn->tiles[k * 4 + j] = 0;
                                 }
                                 break;
                             }
@@ -50,12 +50,12 @@ void combinePieces(board* boardIn, direction directionIn) {
         case LEFT:
             for(i=0;i<4;i++) {
                 for(j=0;j<3;j++) {
-                    if(boardIn->pieces[i*4+j] != 0) {
+                    if(boardIn->tiles[i * 4 + j] != 0) {
                         for(k=j+1;k<4;k++) {
-                            if(boardIn->pieces[i*4+k] != 0) {
-                                if(boardIn->pieces[i*4+j] == boardIn->pieces[i*4+k]) {
-                                    boardIn->pieces[i*4+j] *= 2;
-                                    boardIn->pieces[i*4+k] = 0;
+                            if(boardIn->tiles[i * 4 + k] != 0) {
+                                if(boardIn->tiles[i * 4 + j] == boardIn->tiles[i * 4 + k]) {
+                                    boardIn->tiles[i * 4 + j] *= 2;
+                                    boardIn->tiles[i * 4 + k] = 0;
                                 }
                                 break;
                             }
@@ -67,12 +67,12 @@ void combinePieces(board* boardIn, direction directionIn) {
         case RIGHT:
             for(i=0;i<4;i++) {
                 for(j=3;j>0;j--) {
-                    if(boardIn->pieces[i*4+j] != 0) {
+                    if(boardIn->tiles[i * 4 + j] != 0) {
                         for(k=j-1;k>=0;k--) {
-                            if(boardIn->pieces[i*4+k] != 0) {
-                                if(boardIn->pieces[i*4+j] == boardIn->pieces[i*4+k]) {
-                                    boardIn->pieces[i*4+j] *= 2;
-                                    boardIn->pieces[i*4+k] = 0;
+                            if(boardIn->tiles[i * 4 + k] != 0) {
+                                if(boardIn->tiles[i * 4 + j] == boardIn->tiles[i * 4 + k]) {
+                                    boardIn->tiles[i * 4 + j] *= 2;
+                                    boardIn->tiles[i * 4 + k] = 0;
                                 }
                                 break;
                             }
@@ -91,9 +91,9 @@ void moveBoardRaw(board* boardIn, direction directionIn) {
             case UP:
                 for(j=1;j<4;j++) {
                     for(k=0;k<4;k++) {
-                        if(boardIn->pieces[(j-1)*4+k] == 0) {
-                            boardIn->pieces[(j-1)*4+k] = boardIn->pieces[j*4+k];
-                            boardIn->pieces[j*4+k] = 0;
+                        if(boardIn->tiles[(j - 1) * 4 + k] == 0) {
+                            boardIn->tiles[(j - 1) * 4 + k] = boardIn->tiles[j * 4 + k];
+                            boardIn->tiles[j * 4 + k] = 0;
                         }
                     }
                 }
@@ -101,9 +101,9 @@ void moveBoardRaw(board* boardIn, direction directionIn) {
             case DOWN:
                 for(j=0;j<3;j++) {
                     for(k=0;k<4;k++) {
-                        if(boardIn->pieces[(j+1)*4+k] == 0) {
-                            boardIn->pieces[(j+1)*4+k] = boardIn->pieces[j*4+k];
-                            boardIn->pieces[j*4+k] = 0;
+                        if(boardIn->tiles[(j + 1) * 4 + k] == 0) {
+                            boardIn->tiles[(j + 1) * 4 + k] = boardIn->tiles[j * 4 + k];
+                            boardIn->tiles[j * 4 + k] = 0;
                         }
                     }
                 }
@@ -111,9 +111,9 @@ void moveBoardRaw(board* boardIn, direction directionIn) {
             case LEFT:
                 for(j=0;j<4;j++) {
                     for(k=1;k<4;k++) {
-                        if(boardIn->pieces[j*4+(k-1)] == 0) {
-                            boardIn->pieces[j*4+(k-1)] = boardIn->pieces[j*4+k];
-                            boardIn->pieces[j*4+k] = 0;
+                        if(boardIn->tiles[j * 4 + (k - 1)] == 0) {
+                            boardIn->tiles[j * 4 + (k - 1)] = boardIn->tiles[j * 4 + k];
+                            boardIn->tiles[j * 4 + k] = 0;
                         }
                     }
                 }
@@ -121,9 +121,9 @@ void moveBoardRaw(board* boardIn, direction directionIn) {
             case RIGHT:
                 for(j=0;j<4;j++) {
                     for(k=0;k<3;k++) {
-                        if(boardIn->pieces[j*4+(k+1)] == 0) {
-                            boardIn->pieces[j*4+(k+1)] = boardIn->pieces[j*4+k];
-                            boardIn->pieces[j*4+k] = 0;
+                        if(boardIn->tiles[j * 4 + (k + 1)] == 0) {
+                            boardIn->tiles[j * 4 + (k + 1)] = boardIn->tiles[j * 4 + k];
+                            boardIn->tiles[j * 4 + k] = 0;
                         }
                     }
                 }

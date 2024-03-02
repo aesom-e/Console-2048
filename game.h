@@ -18,7 +18,7 @@ typedef enum {
 int hasLost(board boardIn) {
     int i;
     for(i=0;i<16;i++) {
-        if(boardIn.pieces[i] == 0) return 0;
+        if(boardIn.tiles[i] == 0) return 0;
     }
     return 1;
 }
@@ -26,7 +26,7 @@ int hasLost(board boardIn) {
 int hasWon(board boardIn) {
     int i;
     for(i=0;i<16;i++) {
-        if(boardIn.pieces[i] == 2048) return 1;
+        if(boardIn.tiles[i] == 2048) return 1;
     }
     return 0;
 }
@@ -82,6 +82,8 @@ returnCode play(board* boardIn) {
             printf("\nExiting\n");
             return EXIT;
         case FAILURE:
+            // I feel as though this needs explanation. If the user pressed a key that does nothing, FAILURE is returned
+            // Returning SUCCESS keeps the program going so since we don't exit, this returns SUCCESS
             return SUCCESS;
     }
     addRandomPiece(boardIn);
