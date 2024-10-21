@@ -2,9 +2,15 @@
 
 ## The game
 
-The objective of the game is to attain the 2048 tile
+2048 is played on a 4x4 tile grid
 
-If the board is ever entirely filled, you lose
+The objective of 2048 is to obtain the 2048 tile
+
+Each move spawns a random 2 or 4 tile
+
+Each time 2 pieces of the same value collide together, their values are summed
+
+2048 is lost when no legal moves can be played
 
 ## Keybinds
 

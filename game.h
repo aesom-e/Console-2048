@@ -20,6 +20,27 @@ int hasLost(board boardIn) {
     for(i=0;i<16;i++) {
         if(boardIn.tiles[i] == 0) return 0;
     }
+
+    // Check if there are any adjacent tiles that are the same value
+    for(i=0;i<16;i++) {
+        // Check for the tile above i
+        if(i > 3) {
+            if(boardIn.tiles[i] == boardIn.tiles[i-4]) return 0;
+        }
+        // Check for the tile below i
+        if(i < 12) {
+            if(boardIn.tiles[i] == boardIn.tiles[i+4]) return 0;
+        }
+        // Check for the tile to the left of i
+        if(i % 4) {
+            if(boardIn.tiles[i] == boardIn.tiles[i-1]) return 0;
+        }
+        // Check for the tile to the right of i
+        if(i % 4 != 3) {
+            if(boardIn.tiles[i] == boardIn.tiles[i+1]) return 0;
+        }
+    }
+
     return 1;
 }
 
@@ -94,7 +115,7 @@ returnCode play(board* boardIn) {
     }
     if(hasWon(*boardIn)) {
         printf("\nYou won\n");
-        return LOSE;
+        return WIN;
     }
     return SUCCESS;
 }
